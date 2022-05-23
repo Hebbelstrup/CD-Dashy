@@ -88,7 +88,7 @@ def update_output(concentration,peptide_bonds):
     
     global conversion
     try:
-        conversion = concentration*(5/1000000)*0.1*peptide_bonds
+        conversion = 10*(concentration/1000000)*0.1*peptide_bonds
     except:
         conversion = 1
 
