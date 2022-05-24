@@ -33,7 +33,7 @@ def parse_contents(contents, filename):
     data = pd.read_csv(file, sep="\n|\\t", names=['λ','Elip','Sat'],decimal=',', engine='python')
     df = pd.DataFrame(data)
     df = df[20:df.loc[df['λ'].str.startswith('#####')].index[0]].astype('float')
-    df = df.loc[(df['Sat'] <= 600)]
+    df = df.loc[(df['Sat'] <= 700)]
 
     return df
 
@@ -88,7 +88,7 @@ def update_output(concentration,peptide_bonds):
     
     global conversion
     try:
-        conversion = 10*(concentration/1000000)*0.1*peptide_bonds
+        conversion = (10*(concentration/1000000)*0.1*peptide_bonds)
     except:
         conversion = 1
 
@@ -122,7 +122,7 @@ def plot_data(contents, filename, convert,C,P,files,clicks, An, Bn, Ad, Bd, dS, 
                 
             if convert:
                 x = df['λ']
-                y = df['Elip']/conversion
+                y = df['Elip'].div(conversion)
                     
             else:
                 x = df['λ']
@@ -147,7 +147,8 @@ def plot_data(contents, filename, convert,C,P,files,clicks, An, Bn, Ad, Bd, dS, 
                                                                                              <br>Bd = {par[3]:.3} +- {perr[3]:.3}\
                                                                                              <br>dS = {par[4]:.3} +- {perr[4]:.3}\
                                                                                              <br>dH = {par[5]:.3} +- {perr[5]:.3}\
-                                                                                             <br>r2 = {r2:.3}')
+                                                                                             <br>r2 = {r2:.3}\
+                                                                                             <br>tm = {par[5]/par[4] - 273:.3}')
                                                                                               , row=1,col=1)
                 except Exception as e:
                     message = f'There was an error: {e}'
